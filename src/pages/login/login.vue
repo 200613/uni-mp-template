@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/api/login'
+
 // 获取 code 登录凭证
 let code = ''
 onLoad(async () => {
@@ -7,12 +9,31 @@ onLoad(async () => {
 })
 
 // 授权登录
-const sureToLogin = async () => {}
+const sureToLogin = async () => {
+  uni.showLoading({ title: '正在登录', mask: true })
+  const { result } = await postLoginWxMinAPI({ code })
+  uni.hideLoading()
 
-const loginSuccess = (profile: LoginResult) => {}
+  loginSuccess(result)
+}
+
+const loginSuccess = (profile: LoginResult) => {
+  // 保存会员信息
+  const memberStore = useMemberStore()
+  memberStore.setProfile(profile)
+  // 成功提示
+  uni.showToast({ icon: 'success', title: '登录成功' })
+  setTimeout(() => {
+    // 页面跳转
+    uni.switchTab({ url: '/pages/my/my' })
+  }, 500)
+}
 
 // 模拟手机号码快捷登录（开发练习）
-const onGetphonenumberSimple = async () => {}
+const onGetphonenumberSimple = async () => {
+  const { result } = await postLoginWxMinSimpleAPI('18298079300')
+  loginSuccess(result)
+}
 </script>
 
 <template>
