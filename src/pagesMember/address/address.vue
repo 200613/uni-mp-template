@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-nocheck
 import { codeToText } from '@/utils/element-china-area-data.mjs'
 // 获取收货地址列表数据
 const addressList = ref<AddressItem[]>([])
@@ -8,10 +7,25 @@ const getMemberAddressData = async () => {
   addressList.value = res.result
 }
 
-// 初始化调用(页面显示)
 onShow(() => {
   getMemberAddressData()
 })
+
+// 删除收货地址
+const onDeleteAddress = (id: string) => {
+  //二次确认
+  uni.showModal({
+    content: '删除地址？',
+    success: async (res) => {
+      if (res.confirm) {
+        //
+        await deleteMemberAddressByIdAPI(id)
+        //
+        getMemberAddressData()
+      }
+    }
+  })
+}
 </script>
 
 <template>
@@ -19,9 +33,9 @@ onShow(() => {
     <!-- 地址列表 -->
     <scroll-view class="scroll-view" scroll-y>
       <view v-if="true" class="address">
-        <view class="address-list">
+        <uni-swipe-action class="address-list">
           <!-- 收货地址项 -->
-          <view class="item" v-for="item in addressList" :key="item.id">
+          <uni-swipe-action-item class="item" v-for="item in addressList" :key="item.id">
             <view class="item-content">
               <view class="user">
                 {{ item.receiver }}
@@ -42,8 +56,11 @@ onShow(() => {
                 修改
               </navigator>
             </view>
-          </view>
-        </view>
+            <template #right>
+              <button class="delete-button" @tap="onDeleteAddress(item.id)">删除</button>
+            </template>
+          </uni-swipe-action-item>
+        </uni-swipe-action>
       </view>
       <view v-else class="blank">暂无收货地址</view>
     </scroll-view>
