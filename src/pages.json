@@ -126,15 +126,27 @@
             "navigationBarTextStyle": "white",
             "navigationBarTitleText": "个人信息"
           }
+        },
+        {
+          "path": "address/address",
+          "style": {
+            "navigationBarTitleText": "地址管理"
+          }
+        },
+        {
+          "path": "address/address-form",
+          "style": {
+            "navigationBarTitleText": "编辑地址"
+          }
         }
-      ],
-      // 分包预下载规则
-      "preloadRule": {
-        "pages/my/my": {
-          "network": "all",
-          "packages": ["pagesMember"]
-        }
-      }
+      ]
     }
-  ]
+  ],
+  // 分包预下载规则
+  "preloadRule": {
+    "pages/my/my": {
+      "network": "all",
+      "packages": ["pagesMember"]
+    }
+  }
 }
