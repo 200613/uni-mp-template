@@ -61,12 +61,13 @@ onLoad(async () => {
   isLoading.value = false
 })
 
-// 获取猜你喜欢组件实例
-const guessRef = ref<GuessInstance>()
-// 滚动触底事件
-const onScrolltolower = () => {
-  guessRef.value?.getMore()
-}
+// // 获取猜你喜欢组件实例
+// const guessRef = ref<GuessInstance>()
+// // 滚动触底事件
+// const onScrolltolower = () => {
+//   guessRef.value?.getMore()
+// }
+const { guessRef, onScrolltolower } = useGuessList()
 
 // 下拉刷新状态
 const isTriggered = ref(false)
